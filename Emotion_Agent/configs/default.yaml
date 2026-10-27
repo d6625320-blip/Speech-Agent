@@ -1,0 +1,35 @@
+# All paths are relative to Emotion_Agent, independent of the working directory.
+models_config: configs/models.yaml
+output_dir: outputs
+system_prompt: configs/prompts/dialogue_system.txt
+mode: policy  # text_only (D0), speech_label (D1), policy (D2-S)
+audio:
+  sample_rate: 16000
+  max_seconds: 120
+  min_seconds: 0.35
+  max_bytes: 10485760
+  silence_rms: 0.003
+speech:
+  enabled: true
+  root: ../Speech_model
+  encoder: models/pretrained/emotion2vec_plus_large
+  checkpoint: outputs/final/mcae_chinese_reading_joint_v1/final_model.pt
+  device: auto
+  use_calibration: false
+  confidence_threshold: 0.55
+  margin_threshold: 0.12
+  max_normalized_entropy: 0.85
+dialogue:
+  max_history_turns: 6
+  max_text_chars: 1200
+  max_prompt_chars: 2600
+  max_reply_chars: 240
+  max_sessions: 32
+  session_ttl_seconds: 7200
+tts:
+  enabled: true
+  instruction_control: true
+  max_audio_bytes: 20971520
+network:
+  timeout_seconds: 180
+  retries: 1

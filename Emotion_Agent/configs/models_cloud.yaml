@@ -1,0 +1,17 @@
+asr:
+  provider: dashscope
+  model: qwen3-asr-flash
+  language: zh
+  enable_itn: false
+llm:
+  provider: compatible
+  model: qwen3.7-plus
+  temperature: 0.6
+  max_tokens: 400
+  extra_body:
+    enable_thinking: false
+tts:
+  provider: qwen_audio
+  model: qwen-audio-3.1-tts-flash
+  voice: longanhuan_v3.1
+  sample_rate: 24000

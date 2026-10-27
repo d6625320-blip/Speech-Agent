@@ -1,0 +1,2 @@
+{"conversation_id":"demo_text","text":"我很难过，今天的实验又失败了。","expected_strategy":{"text_only":"text_only","speech_label":"speech_label","policy":"neutral_fallback"}}
+{"conversation_id":"demo_text","text":"我想先检查数据，你觉得从哪里开始？"}

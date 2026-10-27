@@ -1,0 +1,22 @@
+# Default: self-hosted on Windows + one RTX 3090. No cloud fallback is automatic.
+asr:
+  provider: funasr
+  model: SenseVoiceSmall
+  model_dir: models/SenseVoiceSmall
+  vad_dir: models/fsmn-vad
+  device: cuda:0
+  language: zh
+llm:
+  provider: ollama
+  model: qwen3.5:9b
+  base_url: http://127.0.0.1:11434
+  num_ctx: 4096
+  keep_alive: 5m
+  temperature: 0.6
+  max_tokens: 300
+tts:
+  provider: local_qwen
+  model: Qwen3-TTS-12Hz-1.7B-CustomVoice
+  base_url: http://127.0.0.1:9880
+  voice: Vivian
+  sample_rate: 24000

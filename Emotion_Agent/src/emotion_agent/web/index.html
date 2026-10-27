@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emotion Agent · 语音对话</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">EMOTION AGENT</p><h1>说说你现在想聊的事</h1>
+      <p>上传语音、按下录音，或直接输入文字。</p></div><button id="reset" class="secondary">新对话</button></header>
+    <details class="settings"><summary>连接与实验设置</summary>
+      <label>访问口令<input id="token" type="password" autocomplete="off" placeholder="服务器设置口令时填写"></label>
+      <label>实验模式<select id="mode"><option value="policy">D2-S · 情绪策略</option><option value="speech_label">D1 · 类别参考</option><option value="text_only">D0 · 仅文本</option></select></label>
+      <label class="inline"><input id="tts" type="checkbox" checked>生成语音回复</label>
+      <label class="inline"><input id="stream-tts" type="checkbox">流式播放（需启动 faster 加速 TTS 服务）</label>
+      <button id="health" class="secondary">检查连接</button><p id="models"></p>
+    </details>
+    <section id="conversation" aria-label="对话记录" aria-live="polite"><p class="empty">对话从这里开始。情绪识别可能出错，你表达的感受始终优先。</p></section>
+    <section class="composer">
+      <div class="microphone-settings">
+        <label for="microphone">录音麦克风</label>
+        <div class="microphone-actions"><select id="microphone"><option value="">系统默认麦克风</option></select>
+          <button id="refresh-microphones" type="button" class="secondary">检测麦克风</button></div>
+        <p id="microphone-info" class="hint">使用打开此网页的电脑上的麦克风。在远程桌面中打开浏览器时，需要启用麦克风重定向。</p>
+      </div>
+      <form id="text-form"><label for="text">你的消息</label><textarea id="text" rows="3" maxlength="4000" placeholder="输入文字，或使用下面的语音输入…"></textarea>
+        <div class="actions"><button id="record" type="button" class="secondary">开始录音</button>
+        <label class="upload">上传音频<input id="file" type="file" accept="audio/wav,audio/flac,audio/ogg,.wav,.flac,.ogg"></label>
+        <button id="send" type="submit">发送消息</button></div></form>
+      <p id="status" role="status">准备就绪</p>
+    </section>
+    <section id="trace" aria-label="本轮情绪与耗时">
+      <h2>本轮情绪与耗时</h2><div id="emotion-summary">发送一条消息后显示。</div>
+      <details><summary>完整诊断数据</summary><pre id="metrics">尚无数据。</pre></details>
+    </section>
+    <footer>服务器自托管 · 语音情绪辅助对话 · 首轮需要加载模型，耗时可能较长</footer>
+  </main>
+  <script src="/static/stream-player.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</body></html>

@@ -1,0 +1,35 @@
+# Explicit opt-in only: python scripts/run_demo.py --config configs/cloud.yaml ...
+models_config: configs/models_cloud.yaml
+output_dir: outputs
+system_prompt: configs/prompts/dialogue_system.txt
+mode: policy
+audio:
+  sample_rate: 16000
+  max_seconds: 120
+  min_seconds: 0.35
+  max_bytes: 10485760
+  silence_rms: 0.003
+speech:
+  enabled: true
+  root: ../Speech_model
+  encoder: models/pretrained/emotion2vec_plus_large
+  checkpoint: outputs/final/mcae_large_class_balanced_ce/final_model.pt
+  device: auto
+  use_calibration: false
+  confidence_threshold: 0.55
+  margin_threshold: 0.12
+  max_normalized_entropy: 0.85
+dialogue:
+  max_history_turns: 6
+  max_text_chars: 4000
+  max_prompt_chars: 12000
+  max_reply_chars: 240
+  max_sessions: 32
+  session_ttl_seconds: 7200
+tts:
+  enabled: true
+  instruction_control: true
+  max_audio_bytes: 20971520
+network:
+  timeout_seconds: 90
+  retries: 1
