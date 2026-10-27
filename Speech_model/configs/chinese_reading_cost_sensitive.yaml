@@ -1,0 +1,59 @@
+# Independent experiment: correct seven-class CE plus asymmetric confusion penalty.
+# Reuse the same cached features and splits; keep v1 and original MCAE checkpoints.
+experiment:
+  name: mcae_chinese_reading_cost_v2
+  seed: 20261026
+paths:
+  reading_root: ../Emotion_Agent/data/Chinese_Emotional_Reading_Audio_Dataset
+  reading_manifest: outputs/experiments/mcae_chinese_reading_joint_v1/reading_manifest.csv
+  reading_feature_dir: features/emotion2vec_plus_large/chinese_emotional_reading
+  reading_feature_manifest: features/emotion2vec_plus_large/chinese_emotional_reading/manifest.csv
+  model_dir: models/pretrained/emotion2vec_plus_large
+  mcae_feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+  output_dir: outputs/final/mcae_chinese_reading_cost_v2
+  test_output_dir: outputs/evaluation/mcae_chinese_reading_cost_v2
+splits:
+  train: [SPK0001, SPK0002, SPK0003, SPK0006, SPK0007, SPK0008]
+  validation: [SPK0004, SPK0009]
+  test: [SPK0005, SPK0010]
+extraction:
+  device: auto
+  batch_size: 4
+  overwrite: false
+model:
+  embedding_dim: 1024
+  hidden_dim: 0
+  dropout: 0.0
+training:
+  device: auto
+  epochs: 20
+  batch_size: 128
+  num_workers: 0
+  head_learning_rate: 0.0001
+  weight_decay: 0.001
+  class_weight_beta: 0.999
+  mcae_mass: 0.75
+  reading_mass: 0.25
+  samples_per_epoch: 9000
+  early_stopping_patience: 5
+confusion_cost:
+  enabled: true
+  strength: 0.3
+  # Relative experimental preferences, not calibrated probabilities or factual emotion distances.
+  # Applied only to new-reading training recordings with true label disgust.
+  disgust_prediction_costs:
+    disgust: 0.0
+    angry: 0.5
+    surprised: 1.5
+    fear: 1.0
+    happy: 1.0
+    neutral: 1.0
+    sad: 1.0
+selection:
+  reference_checkpoint: outputs/final/mcae_chinese_reading_joint_v1/final_model.pt
+  cost_tradeoff: 0.10
+  max_macro_f1_drop: 0.02
+calibration:
+  enabled: false
+  method: temperature_scaling
+  ece_bins: 15

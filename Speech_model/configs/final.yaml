@@ -1,0 +1,34 @@
+# 使用全部 MCAE 训练最终分类头、拟合温度参数、评估 RAVDESS及实际推理
+experiment:
+  name: mcae_large_final_class_balanced_ce
+  seed: 42
+
+paths:
+  oof_predictions: outputs/experiments/mcae_large/p4_class_balanced_ce/predictions.csv
+  feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+  model_dir: models/pretrained/emotion2vec_plus_large
+  ravdess_root: data/raw/RAVDESS
+  final_output_dir: outputs/final/mcae_large_class_balanced_ce
+  external_output_dir: outputs/evaluation/mcae_large_final_ravdess_once
+
+model:
+  hidden_dim: 0
+  dropout: 0.0
+
+training:
+  device: auto
+  epochs: 7
+  batch_size: 128
+  num_workers: 0
+  head_learning_rate: 0.0001
+  weight_decay: 0.001
+  class_weight_beta: 0.999
+
+calibration:
+  method: temperature_scaling
+  ece_bins: 15
+
+inference:
+  device: auto
+  embedding_batch_size: 4
+  head_batch_size: 256

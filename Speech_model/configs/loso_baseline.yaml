@@ -1,0 +1,23 @@
+# 使用普通交叉熵训练线性分类头，进行六折 LOSO 基线实验
+experiment:
+  name: mcae_large_linear_baseline
+  seed: 42
+
+paths:
+  feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+  output_dir: outputs/experiments/mcae_large/p3_b_linear
+
+model:
+  hidden_dim: 0
+  dropout: 0.0
+
+training:
+  device: auto
+  epochs: 10
+  batch_size: 128
+  head_learning_rate: 0.0001
+  weight_decay: 0.001
+  patience: 3
+  min_delta: 0.0001
+  loss: cross_entropy
+  class_weight_beta: 0.999

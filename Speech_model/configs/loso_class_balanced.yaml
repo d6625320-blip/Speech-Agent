@@ -1,0 +1,23 @@
+# 使用 class-balanced CE 训练线性分类头，进行六折 LOSO 实验
+experiment:
+  name: p4_class_balanced_ce
+  seed: 42
+
+paths:
+  feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+  output_dir: outputs/experiments/mcae_large/p4_class_balanced_ce
+
+model:
+  hidden_dim: 0
+  dropout: 0.0
+
+training:
+  device: auto
+  epochs: 10
+  batch_size: 128
+  head_learning_rate: 0.0001
+  weight_decay: 0.001
+  patience: 3
+  min_delta: 0.0001
+  loss: class_balanced_ce
+  class_weight_beta: 0.999

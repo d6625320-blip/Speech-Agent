@@ -1,0 +1,10 @@
+paths:
+  manifest: outputs/experiments/mcae_large/p0_data_audit/master_manifest.csv
+  model_dir: models/pretrained/emotion2vec_plus_large
+  feature_dir: features/emotion2vec_plus_large/mcae_utterance
+  feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+
+extraction:
+  device: auto
+  batch_size: 4
+  overwrite: false

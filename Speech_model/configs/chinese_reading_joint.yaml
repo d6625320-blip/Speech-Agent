@@ -1,0 +1,51 @@
+# 独立实验：MCAE-SPPS 与中文长句情绪朗读数据联合训练。
+# 所有路径相对于 Speech_model；不会覆盖既有 final.yaml 或既有模型。
+experiment:
+  name: mcae_chinese_reading_joint_v1
+  seed: 20261026
+
+paths:
+  reading_root: ../Emotion_Agent/data/Chinese_Emotional_Reading_Audio_Dataset
+  reading_manifest: outputs/experiments/mcae_chinese_reading_joint_v1/reading_manifest.csv
+  reading_feature_dir: features/emotion2vec_plus_large/chinese_emotional_reading
+  reading_feature_manifest: features/emotion2vec_plus_large/chinese_emotional_reading/manifest.csv
+  model_dir: models/pretrained/emotion2vec_plus_large
+  mcae_feature_manifest: features/emotion2vec_plus_large/mcae_utterance_manifest.csv
+  output_dir: outputs/final/mcae_chinese_reading_joint_v1
+  test_output_dir: outputs/evaluation/mcae_chinese_reading_joint_v1
+
+# 说话人严格互斥。SPK0008 的厌恶/恐惧各少/多一条，只进入训练集。
+splits:
+  train: [SPK0001, SPK0002, SPK0003, SPK0006, SPK0007, SPK0008]
+  validation: [SPK0004, SPK0009]
+  test: [SPK0005, SPK0010]
+
+extraction:
+  device: auto
+  batch_size: 4
+  overwrite: false
+
+model:
+  embedding_dim: 1024
+  hidden_dim: 0
+  dropout: 0.0
+
+training:
+  device: auto
+  epochs: 20
+  batch_size: 128
+  num_workers: 0
+  head_learning_rate: 0.0001
+  weight_decay: 0.001
+  class_weight_beta: 0.999
+  # 每个 epoch 约 75% MCAE、25% 中文长句；中文长句会被有意重复采样。
+  mcae_mass: 0.75
+  reading_mass: 0.25
+  samples_per_epoch: 9000
+  early_stopping_patience: 5
+
+calibration:
+  # 验证集缺少中性类且已用于选择 epoch，默认不在同一数据上额外拟合温度。
+  enabled: false
+  method: temperature_scaling
+  ece_bins: 15

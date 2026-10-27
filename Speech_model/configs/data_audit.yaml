@@ -1,0 +1,18 @@
+
+paths:
+  audio_dir: data/raw/MCAE-SPPS
+  metadata_xlsx: data/raw/MCAE-SPPS/Corpus information.xlsx
+  rater_xlsx: data/raw/MCAE-SPPS/Rater information.xlsx
+  existing_manifest: data/manifests/mcae_spps_7class_manifest.csv
+  output_dir: outputs/experiments/mcae_large/p0_data_audit
+
+audit:
+  seed: 42
+  samples_per_class: 5
+  silence_threshold_dbfs: -50.0
+  clipping_threshold: 0.999
+  export_processed_audio: true
+  target_sample_rate: 16000
+
+split:
+  validation_offset: 1
